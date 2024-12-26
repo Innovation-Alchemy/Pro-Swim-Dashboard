@@ -3,7 +3,7 @@ import AdminInput from "../components/AdminInput";
 // import AdminSelect from "../components/AdminSelect";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import AdminTextArea from "../components/AdminTextArea";
+// import AdminTextArea from "../components/AdminTextArea";
 // import BrandInfoSection from "../components/BrandInfoSection";
 // import AddCircle from "../icons/AddCircle";
 import Modal from "@mui/material/Modal";
