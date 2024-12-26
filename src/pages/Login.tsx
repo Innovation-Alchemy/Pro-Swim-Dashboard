@@ -70,8 +70,8 @@ const Login = () => {
       <div>
         <h1 className="text-[40px] text-center">Welcome Back</h1>
         <div className="flex items-center justify-center gap-4 text-2xl">
-          <img src={loginAnimation} alt="login" className="w-9 h-12" />
-          <span>Login</span>
+          {/* <img src={loginAnimation} alt="login" className="w-9 h-12" /> */}
+          {/* <span>Login</span> */}
         </div>
       </div>
       <Form {...form}>
@@ -108,9 +108,9 @@ const Login = () => {
                 </div>
               )}
             /> */}
-            <Link to={"/"} className="text-primary text-sm">
+            {/* <Link to={"/"} className="text-primary text-sm">
               Forgot password ?
-            </Link>
+            </Link> */}
           </div>
           {error && <p className="text-red-500 text-sm">{error}</p>}
           <Button type="submit" className="w-full text-xl text-white">
