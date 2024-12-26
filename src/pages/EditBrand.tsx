@@ -62,8 +62,7 @@ const EditBrand: React.FC = () => {
         const response = await axios.get(
           process.env.REACT_APP_BASE_URL + "shop/brands"
         );
-
-        setBrand(fromJsonToBrand(response.data["data"][0]));
+        setBrand(fromJsonToBrand(response.data["data"].find((brand: any) => brand.id == id)));
       } catch {
         return;
       }

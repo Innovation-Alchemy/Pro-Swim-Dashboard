@@ -56,7 +56,7 @@ const EditCateg: React.FC = () => {
           process.env.REACT_APP_BASE_URL + "shop/categories?id=" + id
         );
 
-        setCateg(fromJsonToCategory(response.data["data"][0]));
+        setCateg(fromJsonToCategory(response.data["data"].find((gateg: any) => gateg.id == id)));
       } catch {
         return;
       }
