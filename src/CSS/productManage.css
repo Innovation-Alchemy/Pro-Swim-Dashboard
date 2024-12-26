@@ -1,0 +1,356 @@
+.ProductsPage .uploudBtn,
+.brandsPage .uploudBtn,
+.categoriesPage .uploudBtn {
+  font-size: 1rem;
+  padding: 3px 22px;
+  border-radius: 8px;
+  background-color: #1e5c97;
+  color: #fff;
+  outline: none;
+  border: 2px solid #1e5c97;
+  transition: all 0.3s ease-in-out;
+}
+.ProductsPage .uploudBtn:hover,
+.brandsPage .uploudBtn:hover,
+.categoriesPage .uploudBtn:hover {
+  background-color: #fff;
+  color: #1e5c97;
+}
+.ProductsPage .DashHero__blurBg,
+.brandsPage .DashHero__blurBg,
+.categoriesPage .DashHero__blurBg {
+  z-index: 100;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  backdrop-filter: blur(2px);
+  background-color: rgba(44, 62, 108, 0.3);
+}
+.ProductsPage .DashHero__blurBg .blurcard--AddNote,
+.brandsPage .DashHero__blurBg .blurcard--AddNote,
+.categoriesPage .DashHero__blurBg .blurcard--AddNote {
+  min-width: 40vw !important;
+}
+.ProductsPage .DashHero__blurBg .blurcard,
+.brandsPage .DashHero__blurBg .blurcard,
+.categoriesPage .DashHero__blurBg .blurcard {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 20px;
+  padding: 20px 70px;
+  margin-left: calc(var(--sidebarWidth) / 2);
+  border-radius: 20px;
+  background-color: #f1f1f1;
+  animation: Absolute__toUp-Fadein 0.8s ease;
+}
+.ProductsPage .DashHero__blurBg .blurcard .flex,
+.brandsPage .DashHero__blurBg .blurcard .flex,
+.categoriesPage .DashHero__blurBg .blurcard .flex {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  width: 100%;
+  gap: 20px;
+}
+.ProductsPage .DashHero__blurBg .blurcard .flex .flex--col,
+.brandsPage .DashHero__blurBg .blurcard .flex .flex--col,
+.categoriesPage .DashHero__blurBg .blurcard .flex .flex--col {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 20px;
+}
+.ProductsPage .DashHero__blurBg .blurcard .flex .flex--col h2,
+.brandsPage .DashHero__blurBg .blurcard .flex .flex--col h2,
+.categoriesPage .DashHero__blurBg .blurcard .flex .flex--col h2 {
+  color: #1e5c97;
+}
+.ProductsPage .DashHero__blurBg .blurcard .flex .flex--col input,
+.ProductsPage .DashHero__blurBg .blurcard .flex .flex--col select,
+.ProductsPage .DashHero__blurBg .blurcard .flex .flex--col option,
+.brandsPage .DashHero__blurBg .blurcard .flex .flex--col input,
+.brandsPage .DashHero__blurBg .blurcard .flex .flex--col select,
+.brandsPage .DashHero__blurBg .blurcard .flex .flex--col option,
+.categoriesPage .DashHero__blurBg .blurcard .flex .flex--col input,
+.categoriesPage .DashHero__blurBg .blurcard .flex .flex--col select,
+.categoriesPage .DashHero__blurBg .blurcard .flex .flex--col option {
+  padding: 5px 0;
+  padding-left: 5px;
+  border-radius: 4px;
+  border: #1e5c97 1px solid;
+  font-size: 14.5px;
+  color: #1e5c97;
+}
+.ProductsPage .DashHero__blurBg .blurcard .flex .flex--col input:focus,
+.ProductsPage .DashHero__blurBg .blurcard .flex .flex--col select:focus,
+.ProductsPage .DashHero__blurBg .blurcard .flex .flex--col option:focus,
+.brandsPage .DashHero__blurBg .blurcard .flex .flex--col input:focus,
+.brandsPage .DashHero__blurBg .blurcard .flex .flex--col select:focus,
+.brandsPage .DashHero__blurBg .blurcard .flex .flex--col option:focus,
+.categoriesPage .DashHero__blurBg .blurcard .flex .flex--col input:focus,
+.categoriesPage .DashHero__blurBg .blurcard .flex .flex--col select:focus,
+.categoriesPage .DashHero__blurBg .blurcard .flex .flex--col option:focus {
+  outline: #1e5c97 1px solid;
+}
+.ProductsPage .DashHero__blurBg .blurcard .flex .flex--col input::placeholder,
+.ProductsPage .DashHero__blurBg .blurcard .flex .flex--col select::placeholder,
+.ProductsPage .DashHero__blurBg .blurcard .flex .flex--col option::placeholder,
+.brandsPage .DashHero__blurBg .blurcard .flex .flex--col input::placeholder,
+.brandsPage .DashHero__blurBg .blurcard .flex .flex--col select::placeholder,
+.brandsPage .DashHero__blurBg .blurcard .flex .flex--col option::placeholder,
+.categoriesPage .DashHero__blurBg .blurcard .flex .flex--col input::placeholder,
+.categoriesPage .DashHero__blurBg .blurcard .flex .flex--col select::placeholder,
+.categoriesPage .DashHero__blurBg .blurcard .flex .flex--col option::placeholder {
+  color: #1e5c97;
+}
+.ProductsPage .DashHero__blurBg .blurcard .CTAContainer,
+.brandsPage .DashHero__blurBg .blurcard .CTAContainer,
+.categoriesPage .DashHero__blurBg .blurcard .CTAContainer {
+  margin-top: 20px;
+  width: 100%;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+}
+.ProductsPage .DashHero__blurBg .blurcard .CTAContainer .CTA,
+.brandsPage .DashHero__blurBg .blurcard .CTAContainer .CTA,
+.categoriesPage .DashHero__blurBg .blurcard .CTAContainer .CTA {
+  border: 2px solid #1e5c97;
+  background-color: #1e5c97;
+  color: #f1f1f1;
+  border-radius: 4px;
+  padding: 6px 20px;
+  transition: all 0.15s ease;
+  font-weight: 600;
+}
+.ProductsPage .DashHero__blurBg .blurcard .CTAContainer .CTA:hover,
+.brandsPage .DashHero__blurBg .blurcard .CTAContainer .CTA:hover,
+.categoriesPage .DashHero__blurBg .blurcard .CTAContainer .CTA:hover {
+  background-color: #f1f1f1;
+  color: #1e5c97;
+}
+.ProductsPage .DashHero__blurBg .blurcard .X,
+.brandsPage .DashHero__blurBg .blurcard .X,
+.categoriesPage .DashHero__blurBg .blurcard .X {
+  z-index: 5;
+  position: absolute;
+  top: 15px;
+  right: 20px;
+  width: 27.5px;
+  padding: 5px;
+}
+.ProductsPage .DashHero__blurBg .blurcard .X:hover,
+.brandsPage .DashHero__blurBg .blurcard .X:hover,
+.categoriesPage .DashHero__blurBg .blurcard .X:hover {
+  cursor: pointer;
+}
+.ProductsPage .DashHero__blurBg .blurcard h1,
+.brandsPage .DashHero__blurBg .blurcard h1,
+.categoriesPage .DashHero__blurBg .blurcard h1 {
+  position: relative;
+  width: 100%;
+  text-align: center;
+  color: #1e5c97;
+  font-size: 30px;
+  margin-bottom: 40px;
+}
+.ProductsPage .DashHero__blurBg .blurcard h1::after,
+.brandsPage .DashHero__blurBg .blurcard h1::after,
+.categoriesPage .DashHero__blurBg .blurcard h1::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -20px;
+  width: 100%;
+  height: 2px;
+  border-radius: 20px;
+  background-color: #1e5c97;
+}
+.ProductsPage .DashHero__blurBg .CodeDropForm .form-container,
+.brandsPage .DashHero__blurBg .CodeDropForm .form-container,
+.categoriesPage .DashHero__blurBg .CodeDropForm .form-container {
+  width: 100%;
+  height: 60%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.ProductsPage .DashHero__blurBg .CodeDropForm .upload-files-container,
+.brandsPage .DashHero__blurBg .CodeDropForm .upload-files-container,
+.categoriesPage .DashHero__blurBg .CodeDropForm .upload-files-container {
+  width: 100%;
+  padding: 20px 40px;
+  border-radius: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+.ProductsPage .DashHero__blurBg .CodeDropForm .drag-file-area,
+.brandsPage .DashHero__blurBg .CodeDropForm .drag-file-area,
+.categoriesPage .DashHero__blurBg .CodeDropForm .drag-file-area {
+  border: 2px dashed #5a9dd4;
+  border-radius: 40px;
+  margin: 10px 0 15px;
+  padding: 30px 20px;
+  width: 350px;
+  text-align: center;
+}
+.ProductsPage .DashHero__blurBg .CodeDropForm .material-icons-outlined,
+.ProductsPage .DashHero__blurBg .CodeDropForm .file-name,
+.ProductsPage .DashHero__blurBg .CodeDropForm .file-size,
+.brandsPage .DashHero__blurBg .CodeDropForm .material-icons-outlined,
+.brandsPage .DashHero__blurBg .CodeDropForm .file-name,
+.brandsPage .DashHero__blurBg .CodeDropForm .file-size,
+.categoriesPage .DashHero__blurBg .CodeDropForm .material-icons-outlined,
+.categoriesPage .DashHero__blurBg .CodeDropForm .file-name,
+.categoriesPage .DashHero__blurBg .CodeDropForm .file-size {
+  font-size: 12.5px;
+}
+.ProductsPage .DashHero__blurBg .CodeDropForm .drag-file-area .upload-icon,
+.brandsPage .DashHero__blurBg .CodeDropForm .drag-file-area .upload-icon,
+.categoriesPage .DashHero__blurBg .CodeDropForm .drag-file-area .upload-icon {
+  font-size: 35px;
+  font-weight: 600;
+}
+.ProductsPage .DashHero__blurBg .CodeDropForm .drag-file-area h3,
+.brandsPage .DashHero__blurBg .CodeDropForm .drag-file-area h3,
+.categoriesPage .DashHero__blurBg .CodeDropForm .drag-file-area h3 {
+  font-size: 1.5rem;
+  margin: 15px 0;
+}
+.ProductsPage .DashHero__blurBg .CodeDropForm .drag-file-area label,
+.brandsPage .DashHero__blurBg .CodeDropForm .drag-file-area label,
+.categoriesPage .DashHero__blurBg .CodeDropForm .drag-file-area label {
+  font-size: 1.25rem;
+}
+.ProductsPage .DashHero__blurBg .CodeDropForm .browse-files .flex,
+.brandsPage .DashHero__blurBg .CodeDropForm .browse-files .flex,
+.categoriesPage .DashHero__blurBg .CodeDropForm .browse-files .flex {
+  font-size: 0.75rem;
+  margin-top: 10px;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+.ProductsPage .DashHero__blurBg .CodeDropForm .drag-file-area label .browse-files-text,
+.brandsPage .DashHero__blurBg .CodeDropForm .drag-file-area label .browse-files-text,
+.categoriesPage .DashHero__blurBg .CodeDropForm .drag-file-area label .browse-files-text {
+  color: #5a9dd4;
+  font-weight: bolder;
+  cursor: pointer;
+}
+.ProductsPage .DashHero__blurBg .CodeDropForm .browse-files span,
+.brandsPage .DashHero__blurBg .CodeDropForm .browse-files span,
+.categoriesPage .DashHero__blurBg .CodeDropForm .browse-files span {
+  font-size: 1rem;
+  position: relative;
+  top: -25px;
+}
+.ProductsPage .DashHero__blurBg .CodeDropForm .default-file-input,
+.brandsPage .DashHero__blurBg .CodeDropForm .default-file-input,
+.categoriesPage .DashHero__blurBg .CodeDropForm .default-file-input {
+  opacity: 0;
+}
+.ProductsPage .DashHero__blurBg .CodeDropForm .cannot-upload-message,
+.brandsPage .DashHero__blurBg .CodeDropForm .cannot-upload-message,
+.categoriesPage .DashHero__blurBg .CodeDropForm .cannot-upload-message {
+  background-color: #ffc6c4;
+  font-size: 17px;
+  display: flex;
+  align-items: center;
+  margin: 5px 0;
+  padding: 5px 10px 5px 30px;
+  border-radius: 5px;
+  color: #BB0000;
+  display: none;
+}
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+.ProductsPage .DashHero__blurBg .CodeDropForm .cannot-upload-message span,
+.ProductsPage .DashHero__blurBg .CodeDropForm .upload-button-icon,
+.brandsPage .DashHero__blurBg .CodeDropForm .cannot-upload-message span,
+.brandsPage .DashHero__blurBg .CodeDropForm .upload-button-icon,
+.categoriesPage .DashHero__blurBg .CodeDropForm .cannot-upload-message span,
+.categoriesPage .DashHero__blurBg .CodeDropForm .upload-button-icon {
+  padding-right: 10px;
+}
+.ProductsPage .DashHero__blurBg .CodeDropForm .cannot-upload-message span:last-child,
+.brandsPage .DashHero__blurBg .CodeDropForm .cannot-upload-message span:last-child,
+.categoriesPage .DashHero__blurBg .CodeDropForm .cannot-upload-message span:last-child {
+  padding-left: 20px;
+  cursor: pointer;
+}
+.ProductsPage .DashHero__blurBg .CodeDropForm .file-block,
+.brandsPage .DashHero__blurBg .CodeDropForm .file-block,
+.categoriesPage .DashHero__blurBg .CodeDropForm .file-block {
+  color: #f7fff7;
+  background-color: #7b2cbf;
+  transition: all 1s;
+  width: 39px;
+  position: relative;
+  display: none;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  margin: 10px 0 15px;
+  padding: 10px 20px;
+  border-radius: 25px;
+  cursor: pointer;
+}
+.ProductsPage .DashHero__blurBg .CodeDropForm .file-info,
+.brandsPage .DashHero__blurBg .CodeDropForm .file-info,
+.categoriesPage .DashHero__blurBg .CodeDropForm .file-info {
+  display: flex;
+  align-items: center;
+  font-size: 15px;
+}
+.ProductsPage .DashHero__blurBg .CodeDropForm .file-icon,
+.brandsPage .DashHero__blurBg .CodeDropForm .file-icon,
+.categoriesPage .DashHero__blurBg .CodeDropForm .file-icon {
+  margin-right: 10px;
+}
+.ProductsPage .DashHero__blurBg .CodeDropForm .file-name,
+.ProductsPage .DashHero__blurBg .CodeDropForm .file-size,
+.brandsPage .DashHero__blurBg .CodeDropForm .file-name,
+.brandsPage .DashHero__blurBg .CodeDropForm .file-size,
+.categoriesPage .DashHero__blurBg .CodeDropForm .file-name,
+.categoriesPage .DashHero__blurBg .CodeDropForm .file-size {
+  padding: 0 3px;
+}
+.ProductsPage .DashHero__blurBg .CodeDropForm .remove-file-icon,
+.brandsPage .DashHero__blurBg .CodeDropForm .remove-file-icon,
+.categoriesPage .DashHero__blurBg .CodeDropForm .remove-file-icon {
+  cursor: pointer;
+}
+.ProductsPage .DashHero__blurBg .CodeDropForm .progress-bar,
+.brandsPage .DashHero__blurBg .CodeDropForm .progress-bar,
+.categoriesPage .DashHero__blurBg .CodeDropForm .progress-bar {
+  display: flex;
+  position: absolute;
+  bottom: 0;
+  left: 4.5%;
+  width: 0;
+  height: 5px;
+  border-radius: 25px;
+  background-color: #4BB543;
+}
+.ProductsPage .DashHero__blurBg .CodeDropForm .upload-button,
+.brandsPage .DashHero__blurBg .CodeDropForm .upload-button,
+.categoriesPage .DashHero__blurBg .CodeDropForm .upload-button {
+  font-size: 1.25rem;
+  padding: 7.5px 50px;
+}
+
+/*# sourceMappingURL=productManage.css.map */
