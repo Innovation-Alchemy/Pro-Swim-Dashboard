@@ -291,8 +291,8 @@ const AddProduct = () => {
       else {
         updateError("models", null);
         models.forEach((model, index) => {
-          form.append(`models[${index}][color]`, model.color);
-          if (model.image) form.append(`models[${index}][image]`, model.image);
+          form.append(`images[${index}][color]`, model.color);
+          if (model.image) form.append(`images[${index}][image]`, model.image);
         });
       }
 
@@ -303,6 +303,9 @@ const AddProduct = () => {
         );
 
         if (response.data["success"]) navigate(-1);
+      }
+      for (let pair of form.entries()) {
+        console.log(pair[0] + ': ' + pair[1]);
       }
     } catch (error) {
       console.error(error);
@@ -539,7 +542,7 @@ const AddProduct = () => {
           onClick={addProduct}
         />
         <button
-          onClick={() => { }}
+          onClick={() => { window.history.back(); }}
           className="py-1 px-4 text-sm font-semibold bg-gray-200 text-gray-600 rounded-full"
         >
           Cancel

@@ -28,7 +28,6 @@ const EditProduct: React.FC = () => {
   const [selectedCategories, setSelectedCategories] = useState<number[]>([]);
   const [selectedGenders, setSelectedGenders] = useState<number[]>([]);
 
-  const [priceLBP, setPriceLBP] = useState(0);
   const [priceUSD, setPriceUSD] = useState(0);
 
   const [brands, setBrands] = useState<{ id: number; title: string }[]>([]);
@@ -203,11 +202,6 @@ const EditProduct: React.FC = () => {
       setSelectedSport(product.sport.id);
       setSelectedCategories(product.categories.map((category) => category.id));
       setSelectedGenders(product.genders.map((gender) => gender.id));
-      setPriceLBP(
-        parseFloat(
-          product.price.filter((price) => price.currency == "lbp")[0].value
-        )
-      );
       setPriceUSD(
         parseFloat(
           product.price.filter((price) => price.currency == "usd")[0].value
@@ -223,7 +217,7 @@ const EditProduct: React.FC = () => {
       const urlToFile = async (url: string): Promise<File> => {
         const response = await fetch(url);
         const blob = await response.blob();
-        console.log(blob);
+        // console.log(blob);
 
         return new File([blob], url, { type: blob.type });
       };
@@ -422,10 +416,10 @@ const EditProduct: React.FC = () => {
           }
         });
       }
-      if (priceLBP > 0 && priceUSD > 0) {
+      if (priceUSD > 0) {
         form.append(
           "price",
-          `[{"currency": "usd", "value": ${priceUSD}},{"currency":"lbp","value": ${priceLBP}}]`
+          `[{"currency": "usd", "value": ${priceUSD}}]`
         );
       } else {
         setErrorList((prev) => {
@@ -650,13 +644,6 @@ const EditProduct: React.FC = () => {
       </div>
       <div className="xl:flex grid lg:grid-cols-2 md:grid-cols-1 sm:grid-cols-2 grid-cols-1 gap-2">
         <AdminInput
-          label="Price LBP"
-          type="decimal"
-          input={priceLBP.toString()}
-          handleChange={(s: string) => setPriceLBP(parseFloat(s))}
-          errorText={errorList.find((error) => error.key === "price")?.error}
-        />
-        <AdminInput
           label="Price USD"
           type="decimal"
           input={priceUSD.toString()}
@@ -773,7 +760,7 @@ const EditProduct: React.FC = () => {
           onClick={() => editProduct()}
         />
         <button
-          onClick={() => {}}
+          onClick={() => { window.history.back(); }}
           className="py-1 px-4 text-sm font-semibold bg-gray-200 text-gray-600 rounded-full"
         >
           Cancel

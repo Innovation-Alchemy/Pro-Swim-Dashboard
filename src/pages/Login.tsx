@@ -1,14 +1,12 @@
 import { Button } from "../components/ui/button";
-import { Form, FormField } from "../components/ui/form";
+import { Form } from "../components/ui/form";
 import { loginFormSchema } from "../lib/validations";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import loginAnimation from "../assets/login_animation.gif";
-import { Checkbox } from "../components/ui/checkbox";
-import { Link, useNavigate } from "react-router-dom";
+import {  useNavigate } from "react-router-dom";
 import { TextFormField } from "../components/TextFormField";
-import { FormBackground, GoogleButton } from "../components/index";
+import { FormBackground } from "../components/index";
 import axios from "axios";
 import { useState } from "react";
 
@@ -38,19 +36,22 @@ const Login = () => {
 
   async function onSubmit(values: z.infer<typeof loginFormSchema>) {
     try {
-      setError(null); // Clear previous error // AA LEAVE BACKEND IA TAKE OVER
+      setError(null); // Clear previous error
       const response = await axios.post("http://localhost:5000/auth/signin", {
         email: values.email,
         password: values.password,
-        role: "user", // Assuming "user" is the role
+        role: "admin", // Assuming "admin" is the role
       });
-
+  
       if (response.data.success) {
-        // Redirect on successful login
-        const userId = response.data.data.userId; // Extract userId
-        storeUserId(userId); // Store userId in localStorage  
+        // Store user details and token in localStorage
+        const { userId, token } = response.data.data;
+        localStorage.setItem("authToken", token);
+        localStorage.setItem("userId", userId);
+        localStorage.setItem("userRole", "admin"); // Save the role for additional checks if needed
+  
         console.log("Login successful", response.data);
-        navigate("/shop"); // Redirect to /shop
+        navigate("/"); // Redirect to home page
       } else {
         // Handle unexpected structure
         setError("An unexpected error occurred. Please try again.");

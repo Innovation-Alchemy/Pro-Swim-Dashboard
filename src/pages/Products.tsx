@@ -90,33 +90,32 @@ const Products = () => {
 
   }
 
-  // const handleUpload = () => { // AA BACKEND IA takeover
-  //   if (!file) {
-  //     setErrorMessage('Please select a file first');
-  //     console.error('Please select a file first');
-  //   } else {
-  //     const formData = new FormData();
-  //     formData.append('pool_id', currentPool ? currentPool.pool_id : '');
-  //     formData.append('date', innerDateToSend);
-  //     formData.append('file', file);
+  const handleUpload = () => { // AA BACKEND IA takeover
+    if (!file) {
+      setErrorMessage('Please select a file first');
+      console.error('Please select a file first');
+    } else {
+      const formData = new FormData();
+      formData.append('file', file);
 
-  //     // Add your upload logic here
-  //     fetch('https://admin.stackinvestment.net/stackInvest-BackEnd/uploadData.php', {
-  //       method: 'POST',
-  //       body: formData,
-  //     })
-  //       .then((response) => response.json())
-  //       .then((data) => {
-  //         console.log('Success:', data);
-  //         setFile(null);
-  //       })
-  //       .catch((error) => {
-  //         console.error('Error:', error.message);
-  //       });
-  //     console.log('Uploading:', file);
-  //   }
-  //   setCardvisible(""); // AA need for frontend
-  // };
+      // Add your upload logic here
+      fetch('http://localhost:5000/products/upload', {
+        method: 'POST',
+        body: formData,
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          console.log('Success:', data);
+          setFile(null);
+        })
+        .catch((error) => {
+          console.error('Error:', error.message);
+        });
+      console.log('Uploading:', file);
+    }
+    setCardvisible(""); // AA need for frontend
+    window.location.reload();
+  };
 
   return (
     <div className="ProductsPage bg-white w-full h-full px-5 py-6 rounded-lg">
@@ -171,7 +170,7 @@ const Products = () => {
                         <button
                           type="submit"
                           className="CTA upload-button"
-                        // onClick={() => { handleUpload() }} // AA GO BACK TO active after IA BACKEND
+                        onClick={() => { handleUpload() }} // AA GO BACK TO active after IA BACKEND
                         >
                           Upload
                         </button>

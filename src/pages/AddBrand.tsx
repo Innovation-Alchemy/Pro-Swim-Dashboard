@@ -11,7 +11,7 @@ const AddBrand = () => {
 
   const [title, setTitle] = useState("");
   const [infoTitle, setInfoTitle] = useState("");
-  const [infoIsActive, setInfoIsActive] = useState("");
+  const [infoIsActive, setInfoIsActive] = useState(0);
   // const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   const [errorList, setErrorList] = useState<{ key: string; error: string }[]>(
@@ -38,7 +38,7 @@ const AddBrand = () => {
 
   const [open, setOpen] = useState(false);
   const onCloseModal = () => {
-    setInfoIsActive("");
+    setInfoIsActive(0);
     setOpen(false);
   };
 
@@ -54,13 +54,17 @@ const AddBrand = () => {
       if (!title) updateError("isActive", "Choose status");
       else {
         updateError("isActive", null);
-        form.append("is_active", infoIsActive);
+        // form.append("is_active", infoIsActive);
       }
 
       if (errorList.length === 0) {
+        console.log(infoIsActive);
         const response = await axios.post(
           process.env.REACT_APP_BASE_URL + "shop/brands",
-          form
+          {
+            "title": title,
+            "is_active": infoIsActive
+          }
         );
         if (response.data["success"]) navigate(-1);
       }
@@ -122,8 +126,8 @@ const AddBrand = () => {
           value={infoIsActive}
 
         >
-          <option value="true">Active</option>
-          <option value="false">Not Active</option>
+          <option value={1}>Active</option>
+          <option value={0}>Not Active</option>
         </select>
 
       </div>
@@ -135,9 +139,7 @@ const AddBrand = () => {
           onClick={addbrand}
         />
         <button
-          onClick={() => {
-            onCloseModal();
-          }}
+          onClick={() => { window.history.back(); }}
           className="py-1 px-4 text-sm font-semibold bg-gray-200 text-gray-600 rounded-full"
         >
           Cancel

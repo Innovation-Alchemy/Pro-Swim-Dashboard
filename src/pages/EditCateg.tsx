@@ -25,8 +25,8 @@ const EditCateg: React.FC = () => {
   >([]);
   const [infoId, setInfoId] = useState<number | null>(null);
   const [infoTitle, setInfoTitle] = useState("");
-
-
+  const [infoIsActive, setInfoIsActive] = useState(1);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
 
   const [errorList, setErrorList] = useState<{ key: string; error: string }[]>(
@@ -57,6 +57,7 @@ const EditCateg: React.FC = () => {
         );
 
         setCateg(fromJsonToCategory(response.data["data"].find((gateg: any) => gateg.id == id)));
+        setInfoIsActive(response.data["data"].find((brand: any) => brand.id == id)["is_active"]);
       } catch {
         return;
       }
@@ -97,43 +98,19 @@ const EditCateg: React.FC = () => {
       }
 
 
-      if (categInfo.length > 0) {
-        categInfo.forEach((info, index) => {
-          form.append(
-            `categ_info[${index}]`,
-            `{"title":"${info.title}"}`
-          );
-        });
-      } else {
-        setErrorList((prev) => {
-          const existingErrorIndex = prev.findIndex(
-            (error) => error.key === "categ_info"
-          );
-          if (existingErrorIndex !== -1) {
-            const updatedErrors = [...prev];
-            updatedErrors[existingErrorIndex] = {
-              key: "categ_info",
-              error: "This Field is Required",
-            };
-            return updatedErrors;
-          } else {
-            return [
-              ...prev,
-              { key: "categ_info", error: "This Field is Required" },
-            ];
-          }
-        });
-      }
-
-
       for (const pair of form.entries()) {
         console.log(pair[0] + ": " + pair[1]);
       }
-
+      console.log(errorList);
       if (errorList.length == 0) {
+        const test = process.env.REACT_APP_BASE_URL + "shop/categories/" + id;
+        console.log(test);
         const response = await axios.put(
           process.env.REACT_APP_BASE_URL + "shop/categories/" + id,
-          form
+          {
+            title: title,
+            is_active: infoIsActive,
+          }
         );
         if (response.data["success"] == true) {
           navigate(-1);
@@ -162,7 +139,6 @@ const EditCateg: React.FC = () => {
             // value={title}
             handleChange={(s: string) => setInfoTitle(s)}
           />
-
           <div className="flex justify-center gap-3">
             <Button
               onClick={() => {
@@ -206,6 +182,21 @@ const EditCateg: React.FC = () => {
         handleChange={(s: string) => setTitle(s)}
         errorText={errorList.find((error) => error.key === "title")?.error}
       />
+       <div className="relative w-full mb-3">
+        <div className="text-primary font-semibold text-lg mb-2">Status</div>
+        <select
+          className="w-full border-2 border-primary rounded-2xl py-3 px-2 text-primary font-semibold flex justify-between items-center cursor-pointer outline-none"
+          onChange={(e) => {
+            setInfoIsActive(e.target.value);
+          }}
+          value={infoIsActive}
+
+        >
+          <option value={1}>Active</option>
+          <option value={0}>Not Active</option>
+        </select>
+
+      </div>
       <div className="flex justify-center items-center gap-3">
         <Button
           title="Save"
@@ -213,7 +204,7 @@ const EditCateg: React.FC = () => {
           onClick={() => editCateg()}
         />
         <button
-          onClick={() => { }}
+          onClick={() => { window.history.back(); }}
           className="py-1 px-4 text-sm font-semibold bg-gray-200 text-gray-600 rounded-full"
         >
           Cancel

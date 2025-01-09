@@ -24,7 +24,7 @@ const UserDetailsEmails = () => {
           (data: unknown) => fromJsonToUserEmail(data)
         );
 
-        console.log(emailsData[0]);
+        console.log(emailsData);
         setEmails(emailsData);
       } catch {
         return;

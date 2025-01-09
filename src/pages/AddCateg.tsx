@@ -11,7 +11,7 @@ const AddCateg = () => {
 
   const [title, setTitle] = useState("");
   const [infoTitle, setInfoTitle] = useState("");
-  const [infoIsActive, setInfoIsActive] = useState("");
+  const [infoIsActive, setInfoIsActive] = useState(0);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   const [errorList, setErrorList] = useState<{ key: string; error: string }[]>(
@@ -38,7 +38,7 @@ const AddCateg = () => {
 
   const [open, setOpen] = useState(false);
   const onCloseModal = () => {
-    setInfoIsActive("");
+    setInfoIsActive(0);
     setOpen(false);
   };
 
@@ -56,7 +56,10 @@ const AddCateg = () => {
       if (errorList.length === 0) {
         const response = await axios.post(
           process.env.REACT_APP_BASE_URL + "shop/categories",
-          form
+          {
+            title: title,
+            is_active: infoIsActive,
+          }
         );
         if (response.data["success"]) navigate(-1);
       }
@@ -93,21 +96,6 @@ const AddCateg = () => {
         handleChange={(s: string) => setTitle(s)}
         errorText={errorList.find((error) => error.key === "title")?.error}
       />
-      {/* <AdminMultipleSelect // AA GO BACK TO TEST
-        label="Active"
-        options={[{ 'id': 0, 'title': '0' }, { 'id': 1, 'title': '1' }]}
-        selected={selectedCategories}
-        handleSelection={(id: number) =>
-          setSelectedCategories((prevSelected) =>
-            prevSelected.includes(id)
-              ? prevSelected.filter((optionId) => optionId !== id)
-              : [...prevSelected, id]
-          )
-        }
-        errorText={
-          errorList.find((error) => error.key === "categories")?.error
-        }
-      /> */}
       <div className="relative w-full mb-3">
         <div className="text-primary font-semibold text-lg mb-2">Status</div>
         <select
@@ -116,8 +104,8 @@ const AddCateg = () => {
           value={infoIsActive}
 
         >
-          <option value="1">Active</option>
-          <option value="0">Not Active</option>
+          <option value={1}>Active</option>
+          <option value={0}>Not Active</option>
         </select>
         {isDropdownOpen && (
           <div className="absolute top-full left-0 w-full bg-white border-2 border-primary rounded-xl z-10 mt-2">
@@ -141,9 +129,7 @@ const AddCateg = () => {
           onClick={addCateg}
         />
         <button
-          onClick={() => {
-            onCloseModal();
-          }}
+          onClick={() => { window.history.back(); }}
           className="py-1 px-4 text-sm font-semibold bg-gray-200 text-gray-600 rounded-full"
         >
           Cancel

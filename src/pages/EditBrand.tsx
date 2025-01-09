@@ -14,19 +14,17 @@ import Button from "../components/Button";
 // import Model from "../components/Model";
 import { useNavigate, useParams } from "react-router-dom";
 import { fromJsonToBrand, BrandModel } from "../models/brand";
+// import { info } from "console";
 
 const EditBrand: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const [brand, setBrand] = useState<BrandModel | null>(null);
   const navigate = useNavigate();
-
+  const [infoIsActive, setInfoIsActive] = useState(1);
   const [title, setTitle] = useState<string>("");
-  // const [description, setDescription] = useState("");
-
   const [errorList, setErrorList] = useState<{ key: string; error: string }[]>(
     []
   );
-
 
 
 
@@ -63,6 +61,7 @@ const EditBrand: React.FC = () => {
           process.env.REACT_APP_BASE_URL + "shop/brands"
         );
         setBrand(fromJsonToBrand(response.data["data"].find((brand: any) => brand.id == id)));
+        setInfoIsActive(response.data["data"].find((brand: any) => brand.id == id)["is_active"]);
       } catch {
         return;
       }
@@ -81,6 +80,7 @@ const EditBrand: React.FC = () => {
   const editBrand = async () => {
     try {
       const form = new FormData();
+      
       if (title != "") {
         setErrorList((prev) => prev.filter((error) => error.key !== "title"));
         form.append("title", title);
@@ -101,38 +101,22 @@ const EditBrand: React.FC = () => {
           }
         });
       }
-      // if (description != "") {
-      //   form.append("description", description);
-      // } else {
-      //   setErrorList((prev) => {
-      //     const existingErrorIndex = prev.findIndex(
-      //       (error) => error.key === "description"
-      //     );
-      //     if (existingErrorIndex !== -1) {
-      //       const updatedErrors = [...prev];
-      //       updatedErrors[existingErrorIndex] = {
-      //         key: "description",
-      //         error: "This Field is Required",
-      //       };
-      //       return updatedErrors;
-      //     } else {
-      //       return [
-      //         ...prev,
-      //         { key: "description", error: "This Field is Required" },
-      //       ];
-      //     }
-      //   });
-      // }
-
+     
       for (const pair of form.entries()) {
         console.log(pair[0] + ": " + pair[1]);
       }
-
       if (errorList.length == 0) {
+        const test = process.env.REACT_APP_BASE_URL + "shop/brands/:id=" + id;
+        console.log(test);
+       
         const response = await axios.put(
-          process.env.REACT_APP_BASE_URL + "shop/brands/" + id,
-          form
+          `${process.env.REACT_APP_BASE_URL}shop/brands/${id}`, // Add `id` to the URL
+          {
+            title: title, // Data in the request body
+            is_active: infoIsActive,
+          }
         );
+        console.log(response);
         if (response.data["success"] == true) {
           navigate(-1);
         }
@@ -206,7 +190,21 @@ const EditBrand: React.FC = () => {
           errorList.find((error) => error.key === "description")?.error
         }
       /> */}
+       <div className="relative w-full mb-3">
+        <div className="text-primary font-semibold text-lg mb-2">Status</div>
+        <select
+          className="w-full border-2 border-primary rounded-2xl py-3 px-2 text-primary font-semibold flex justify-between items-center cursor-pointer outline-none"
+          onChange={(e) => {
+            setInfoIsActive(e.target.value);
+          }}
+          value={infoIsActive}
 
+        >
+          <option value={1}>Active</option>
+          <option value={0}>Not Active</option>
+        </select>
+
+      </div>
       <div className="flex justify-center items-center gap-3">
         <Button
           title="Save"
@@ -214,7 +212,7 @@ const EditBrand: React.FC = () => {
           onClick={() => editBrand()}
         />
         <button
-          onClick={() => { }}
+          onClick={() => { window.history.back(); }}
           className="py-1 px-4 text-sm font-semibold bg-gray-200 text-gray-600 rounded-full"
         >
           Cancel

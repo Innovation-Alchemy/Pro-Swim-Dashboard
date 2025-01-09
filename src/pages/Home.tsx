@@ -123,6 +123,9 @@ const Home = () => {
             headers={userOrderHeaders}
             data={orders}
             limtedBy={5}
+            onLimitedClicked={() => {
+              navigate("/orders");
+            }}
           />
         </div>
       </div>
@@ -135,14 +138,14 @@ const Home = () => {
             limtedBy={5}
           />
         </div> */}
-        <div className="xl:w-[40%]">
+        {/* <div className="xl:w-[40%]">
           <CustomTable
             title="Emails"
             headers={emailHeaders}
             data={emails}
             limtedBy={5}
           />
-        </div>
+        </div> */}
       </div>
     </div>
   );
