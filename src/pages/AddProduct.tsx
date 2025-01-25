@@ -21,14 +21,14 @@ const AddProduct = () => {
   const [description, setDescription] = useState("");
   const [stock, setStock] = useState(0);
   const [selectedBrand, setSelectedBrand] = useState(-1);
-  const [selectedSport, setSelectedSport] = useState(-1);
+  // const [selectedSport, setSelectedSport] = useState(-1);
   const [selectedCategories, setSelectedCategories] = useState<number[]>([]);
   const [selectedGenders, setSelectedGenders] = useState<number[]>([]);
   // const [priceLBP, setPriceLBP] = useState(0);
   const [priceUSD, setPriceUSD] = useState(0);
 
   const [brands, setBrands] = useState<{ id: number; title: string }[]>([]);
-  const [sports, setSports] = useState<{ id: number; title: string }[]>([]);
+  // const [sports, setSports] = useState<{ id: number; title: string }[]>([]);
   const [categories, setCategories] = useState<{ id: number; title: string }[]>(
     []
   );
@@ -175,15 +175,15 @@ const AddProduct = () => {
     } catch { }
   };
 
-  const fetchSports = async () => {
-    try {
-      const response = await axios.get(
-        process.env.REACT_APP_BASE_URL + "shop/sports"
-      );
+  // const fetchSports = async () => {
+  //   try {
+  //     const response = await axios.get(
+  //       process.env.REACT_APP_BASE_URL + "shop/sports"
+  //     );
 
-      setSports(response.data["data"]);
-    } catch { }
-  };
+  //     setSports(response.data["data"]);
+  //   } catch { }
+  // };
 
   const fetchCategories = async () => {
     try {
@@ -207,7 +207,7 @@ const AddProduct = () => {
 
   useEffect(() => {
     fetchBrands();
-    fetchSports();
+    // fetchSports();
     fetchCategories();
     fetchGenders();
   }, []);
@@ -234,11 +234,11 @@ const AddProduct = () => {
         form.append("brand", selectedBrand.toString());
       }
 
-      if (selectedSport < 0) updateError("sport", "Sport is required");
-      else {
-        updateError("sport", null);
-        form.append("sport", selectedSport.toString());
-      }
+      // if (selectedSport < 0) updateError("sport", "Sport is required");
+      // else {
+      //   updateError("sport", null);
+      //   form.append("sport", selectedSport.toString());
+      // }
 
       if (selectedCategories.length === 0)
         updateError("categories", "At least one category is required");
@@ -385,13 +385,13 @@ const AddProduct = () => {
           handleSelection={(id: number) => setSelectedBrand(id)}
           errorText={errorList.find((error) => error.key === "brand")?.error}
         />
-        <AdminSelect
+        {/* <AdminSelect
           label="Sport"
           options={sports}
           selected={selectedSport}
           handleSelection={(id: number) => setSelectedSport(id)}
           errorText={errorList.find((error) => error.key === "sport")?.error}
-        />
+        /> */}
         <AdminMultipleSelect
           label="Categories"
           options={categories}
