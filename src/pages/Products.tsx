@@ -99,7 +99,7 @@ const Products = () => {
       formData.append('file', file);
 
       // Add your upload logic here
-      fetch('https://shop.proswim-lb.com/products/upload', {
+      fetch('https://shop.proswim-lb.com/api/products/upload', {
         method: 'POST',
         body: formData,
       })
