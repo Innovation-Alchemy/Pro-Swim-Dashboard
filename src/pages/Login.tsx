@@ -38,7 +38,7 @@ const Login = () => {
   async function onSubmit(values: z.infer<typeof loginFormSchema>) {
     try {
       setError(null); // Clear previous error
-      const response = await axios.post("http://localhost:5000/auth/signin", {
+      const response = await axios.post("https://shop.proswim-lb.com/auth/signin", {
         email: values.email,
         password: values.password,
         role: "admin", // Assuming "admin" is the role
