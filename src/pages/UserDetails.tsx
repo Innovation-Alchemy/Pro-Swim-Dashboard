@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEnvelope, faTrashCan } from "@fortawesome/free-regular-svg-icons";
 import axios from "axios";
 import { fromJsonToUser, UserModel } from "../models/user";
+import { faPhone } from "@fortawesome/free-solid-svg-icons";
 
 const UserDetails = () => {
   const { id } = useParams<{ id: string }>();
@@ -41,9 +42,17 @@ const UserDetails = () => {
 
   const user = users.find((user) => user.id.toString() === id);
   const email = user ? user.email : "Email not found";
+  let phone = user ? user.phone : "Phone number not found";
+  if (
+    phone !== "Phone number not found" &&
+    !phone.startsWith("+") &&
+    !phone.startsWith("00")
+  ) {
+    phone = "+961" + phone;
+  }
   return (
-    <div className="w-full">
-      <div className="bg-white p-7 rounded-lg h-full flex flex-col">
+    <div className="w-full h-full flex justify-center items-center">
+      <div className="bg-white p-7 rounded-lg h-full flex flex-col w-full">
         <div className="text-xl text-primary font-semibold">User's Details</div>
         <div className="sm:m-6 mt-6 flex sm:flex-row flex-col items-center gap-5 relative w-full">
           <img src={pfp} alt="" height={120} width={120} />
@@ -53,6 +62,13 @@ const UserDetails = () => {
               className="text-3xl text-gray-600"
             />
             <div className="text-2xl text-gray-600">{email}</div>
+          </div>
+          <div className="flex items-center text-center gap-3">
+            <FontAwesomeIcon
+              icon={faPhone}
+              className="text-3xl text-gray-600"
+            />
+            <div className="text-2xl text-gray-600"> <a href={`https://wa.me/${phone}`} target="blank">{phone}</a></div>
           </div>
           <div
             className="absolute sm:right-12 right-2 text-2xl text-red-600"

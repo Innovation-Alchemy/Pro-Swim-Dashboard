@@ -64,7 +64,7 @@ export const feedbackFormSchema = z.object({
     message: z.string().min(1, {
         message: "Message is required",
     }),
-    phoneNumber: z.string().min(1, {
+    phone: z.string().min(1, {
         message: "Phone number is required",
     }),
 });

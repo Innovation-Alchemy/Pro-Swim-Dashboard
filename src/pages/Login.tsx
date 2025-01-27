@@ -9,6 +9,7 @@ import { TextFormField } from "../components/TextFormField";
 import { FormBackground } from "../components/index";
 import axios from "axios";
 import { useState } from "react";
+import logo from "../../public/logo.png";
 
 const Login = () => {
   const [error, setError] = useState<string | null>(null);
@@ -68,8 +69,8 @@ const Login = () => {
 
   return (
     <FormBackground>
-      <div>
-        <h1 className="text-[40px] text-center">Welcome Back</h1>
+      <div className="flex flex-col items-center">
+        <img src={logo} alt="Logo" />
         <div className="flex items-center justify-center gap-4 text-2xl">
           {/* <img src={loginAnimation} alt="login" className="w-9 h-12" /> */}
           {/* <span>Login</span> */}

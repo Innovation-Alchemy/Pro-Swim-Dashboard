@@ -20,7 +20,6 @@ const UserDetailsOrders = () => {
           (data: unknown) => fromJsonToOrder(data)
         );
 
-        console.log(ordersData[0]); // Debugging/logging
         setOrders(ordersData);
       } catch {
         return;

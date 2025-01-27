@@ -4,7 +4,7 @@ import Navbar from "../components/Navbar";
 import {
   // callsHeaders,
   emailHeaders,
-  userOrderHeaders,
+  homeOrderHeaders,
   userHeaders,
 } from "../data";
 import { useEffect, useState } from "react";
@@ -41,15 +41,15 @@ const Home = () => {
       const response = await axios.get(
         process.env.REACT_APP_BASE_URL + "users"
       );
-
       const users = response.data["data"].map(
-        (user: { id: number; email: string; role: string }) => ({
+        (user: { id: number; name: string ;email: string; phone: string; role: string }) => ({
           id: user.id,
+          name: user.name,
           email: user.email,
+          phone: user.phone,
           role: user.role,
         })
       );
-
       setUsers(users);
     } catch {
       return;
@@ -101,12 +101,11 @@ const Home = () => {
     // fetchScheduleCalls();
     fetchEmails();
   }, []);
-
   return (
     <div className="w-full md:ml-[300px]">
       <Navbar links={[{ title: "Summary", path: "/" }]} />
-      <div className="flex xl:flex-row flex-col gap-3 my-3 mx-3">
-        <div className="xl:w-[45%] ">
+      <div className="flex flex-col gap-6 my-6 mx-6">
+        <div className="w-full">
           <CustomTable
             title="Users"
             headers={userHeaders}
@@ -117,10 +116,10 @@ const Home = () => {
             }}
           />
         </div>
-        <div className="xl:w-[55%]">
+        <div className="w-full">
           <CustomTable
             title="Orders"
-            headers={userOrderHeaders}
+            headers={homeOrderHeaders(users)}
             data={orders}
             limtedBy={5}
             onLimitedClicked={() => {

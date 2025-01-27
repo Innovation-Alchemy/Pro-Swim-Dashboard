@@ -26,7 +26,6 @@ const Brand = () => {
       );
 
       setbrands(brandsData);
-      console.log("brands:", brands);
       setLoading(false);
     } catch {
       setLoading(false);

@@ -48,81 +48,86 @@ const CustomTable = <T,>({
     const areAllRowsChecked = updatedCheckedRows.every((row) => row);
     setAllChecked(areAllRowsChecked);
   };
+
   return (
     <div
       className={`bg-white ${
         title && "p-7"
-      } rounded-lg h-full flex flex-col md:overflow-x-hidden overflow-x-scroll `}
+      } rounded-lg h-full flex flex-col`}
     >
       {title && (
         <div className="text-xl text-primary font-semibold">{title}</div>
       )}
-      <table className="w-full rounded-md my-4 ">
-        <thead className="bg-[#edf6ff]">
-          <tr>
-            {action && (
-              <td className="w-[80px] text-center ">
-                <input
-                  type="checkbox"
-                  checked={allChecked}
-                  onChange={handleHeaderCheckboxChange}
-                />
-              </td>
-            )}
-            {headers.map((header, index) => (
-              <td
-                key={index}
-                className="first:rounded-s-xl last:rounded-e-xl py-2 px-3 "
-              >
-                {header.label}
-              </td>
-            ))}
-            {action && (
-              <td className="first:rounded-s-xl last:rounded-e-xl py-2 px-3">
-                Action
-              </td>
-            )}
-          </tr>
-        </thead>
-        <tbody>
-          {data.slice(0, limtedBy ?? 99999).map((row: any, rowIndex) => (
-            <tr key={rowIndex}>
+      {/* Add overflow-x:auto for the table wrapper */}
+      <div className="overflow-x-auto w-full">
+        <table className="w-full rounded-md my-4 border-separate border-spacing-0">
+          <thead className="bg-[#edf6ff]">
+            <tr>
               {action && (
-                <td className="border-b border-gray-400 text-center">
+                <td className="w-[80px] text-center ">
                   <input
                     type="checkbox"
-                    checked={checkedRows[rowIndex]}
-                    onChange={() => handleRowCheckboxChange(rowIndex)}
+                    checked={allChecked}
+                    onChange={handleHeaderCheckboxChange}
                   />
                 </td>
               )}
-              {headers.map((header, colIndex) => (
+              {headers.map((header, index) => (
                 <td
-                  key={colIndex}
-                  className="border-b first:pl-4 border-gray-400 py-2 px-3 text-nowrap"
-                  onClick={() => onRowClick && onRowClick(row)}
+                  key={index}
+                  className="first:rounded-s-xl last:rounded-e-xl py-2 px-3"
                 >
-                  {header.data(row)}
+                  {header.label}
                 </td>
               ))}
               {action && (
-                <td className="border-b first:pl-4 border-gray-400 py-2 px-3">
-                  {action.map((btn, index) => (
-                    <FontAwesomeIcon
-                      key={index}
-                      className={btn.className}
-                      icon={btn.icon}
-                      onClick={() => {
-                        btn.onClick(row);
-                      }}
-                    />
-                  ))}
+                <td className="first:rounded-s-xl last:rounded-e-xl py-2 px-3">
+                  Action
                 </td>
               )}
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {data.slice(0, limtedBy ?? 99999).map((row: any, rowIndex) => (
+              <tr key={rowIndex}>
+                {action && (
+                  <td className="border-b border-gray-400 text-center">
+                    <input
+                      type="checkbox"
+                      checked={checkedRows[rowIndex]}
+                      onChange={() => handleRowCheckboxChange(rowIndex)}
+                    />
+                  </td>
+                )}
+                {headers.map((header, colIndex) => (
+                  <td
+                    key={colIndex}
+                    className="border-b first:pl-4 border-gray-400 py-2 px-3 whitespace-nowrap overflow-x-auto"
+                    onClick={() => onRowClick && onRowClick(row)}
+                    style={{ maxWidth: "200px" }} // Adjust maxWidth as needed
+                  >
+                    {header.data(row)}
+                  </td>
+                ))}
+                {action && (
+                  <td className="border-b first:pl-4 border-gray-400 py-2 px-3">
+                    {action.map((btn, index) => (
+                      <FontAwesomeIcon
+                        key={index}
+                        className={btn.className}
+                        icon={btn.icon}
+                        onClick={() => {
+                          btn.onClick(row);
+                        }}
+                      />
+                    ))}
+                  </td>
+                )}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
       {limtedBy && (
         <div className="flex justify-center mt-auto">
           <Button title="Details" onClick={onLimitedClicked!} />
