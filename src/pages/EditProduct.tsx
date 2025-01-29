@@ -527,9 +527,13 @@ const EditProduct: React.FC = () => {
         if (response.data["success"] == true) {
           navigate(-1);
         }
+      else{
+        navigate(-1);
+        window.location.reload();}
       }
     } catch (error) {
       console.log(error);
+      navigate(-1);
     }
   };
 
