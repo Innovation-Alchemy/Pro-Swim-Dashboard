@@ -606,13 +606,6 @@ const EditProduct: React.FC = () => {
           handleSelection={(id: number) => setSelectedBrand(id)}
           errorText={errorList.find((error) => error.key === "brand")?.error}
         />
-        <AdminSelect
-          label="Sport"
-          options={sports}
-          selected={selectedSport}
-          handleSelection={(id: number) => setSelectedSport(id)}
-          errorText={errorList.find((error) => error.key === "sport")?.error}
-        />
         <AdminMultipleSelect
           label="Categories"
           options={categories}

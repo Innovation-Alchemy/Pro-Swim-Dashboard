@@ -28,6 +28,7 @@ import Login from "./pages/Login";
 import EditBrand from "./pages/EditBrand";
 import EditCateg from "./pages/EditCateg";
 import PrivateRoute from "./components/PrivateRoute";
+import "@mdxeditor/editor/style.css";
 
 function App() {
   return (
