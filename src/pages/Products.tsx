@@ -6,6 +6,8 @@ import AddCircle from "../icons/AddCircle";
 import { useNavigate } from "react-router-dom";
 import "../CSS/productManage.css";
 import X from "../assets/X.svg";
+import * as XLSX from "xlsx";
+import { saveAs } from "file-saver";
 
 const Products = () => {
   const [products, setProducts] = useState<ProductModel[]>([]);
@@ -41,7 +43,7 @@ const Products = () => {
         prevProd.filter((prod) => prod.id.toString() !== id)
       );
 
-      console.log(response);
+      // console.log(response);
     } catch { }
   };
 
@@ -49,37 +51,42 @@ const Products = () => {
     fetchProducts();
   }, []);
 
-
-  const handleFileChange = (e) => {
-    const selectedFile = e.target.files[0];
-    if (selectedFile) {
-      if (selectedFile.type !== "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet") {
-        setErrorMessage('Please select an .xlsx file');
-        setFile(null);
-      } else {
-        setFile(selectedFile);
-        setErrorMessage('');
-      }
-    }
+  const [selectedDate, setSelectedDate] = useState(new Date());
+  const handleDateChange = (e) => {
+    // Handle date change logic here
+    setSelectedDate(e.target.value);
   };
 
-  const handleDrop = (e) => {
-    e.preventDefault();
-    const selectedFile = e.dataTransfer.files[0];
-    if (selectedFile) {
-      if (selectedFile.type !== "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet") {
-        setErrorMessage('Please select an .xlsx file');
-        setFile(null);
-      } else {
-        setFile(selectedFile);
-        setErrorMessage('');
-      }
-    }
-  };
+  // const handleFileChange = (e) => {
+  //   const selectedFile = e.target.files[0];
+  //   if (selectedFile) {
+  //     if (selectedFile.type !== "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet") {
+  //       setErrorMessage('Please select an .xlsx file');
+  //       setFile(null);
+  //     } else {
+  //       setFile(selectedFile);
+  //       setErrorMessage('');
+  //     }
+  //   }
+  // };
 
-  const handleDragOver = (e) => {
-    e.preventDefault();
-  };
+  // const handleDrop = (e) => {
+  //   e.preventDefault();
+  //   const selectedFile = e.dataTransfer.files[0];
+  //   if (selectedFile) {
+  //     if (selectedFile.type !== "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet") {
+  //       setErrorMessage('Please select an .xlsx file');
+  //       setFile(null);
+  //     } else {
+  //       setFile(selectedFile);
+  //       setErrorMessage('');
+  //     }
+  //   }
+  // };
+
+  // const handleDragOver = (e) => {
+  //   e.preventDefault();
+  // };
 
   const handleUnload = () => {
     if (!file) {
@@ -90,32 +97,88 @@ const Products = () => {
 
   }
 
-  const handleUpload = () => { // AA BACKEND IA takeover
-    if (!file) {
-      setErrorMessage('Please select a file first');
-      console.error('Please select a file first');
-    } else {
-      const formData = new FormData();
-      formData.append('file', file);
-
-      // Add your upload logic here
-      fetch('https://shop.proswim-lb.com/api/products/upload', {
-        method: 'POST',
-        body: formData,
+  const handleUpload = () => {
+    fetch('https://shop.proswim-lb.com/api/shop/SyncProductsPOS', {
+      method: 'POST',
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log('Success:', data);
       })
-        .then((response) => response.json())
-        .then((data) => {
-          console.log('Success:', data);
-          setFile(null);
-        })
-        .catch((error) => {
-          console.error('Error:', error.message);
-        });
-      console.log('Uploading:', file);
-    }
-    setCardvisible(""); // AA need for frontend
+      .catch((error) => {
+        console.error('Error:', error.message);
+      });
     window.location.reload();
   };
+
+  const handleGetSales = (e) => {
+    e.preventDefault();
+    fetch("https://shop.proswim-lb.com/api/shop/ordersByDate", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        date: selectedDate,
+      }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        if (!data.success || !data.data) {
+          console.error("No orders found or API error.");
+          return;
+        }
+  
+        // Flatten the nested array structure
+        const flattenedData = data.data.flat().map((order, index) => ({
+          Barcode: order.barcode,
+          Quantity: order.product_quantity,
+          Price: order.product_price,
+        }));
+  
+        // Convert data to worksheet
+        const worksheet = XLSX.utils.json_to_sheet(flattenedData);
+        const workbook = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(workbook, worksheet, "Sales Data");
+  
+        // Write file and trigger download
+        const excelBuffer = XLSX.write(workbook, { bookType: "xlsx", type: "array" });
+        const blob = new Blob([excelBuffer], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" });
+        saveAs(blob, `Sales_Report_${selectedDate}.xlsx`);
+  
+        console.log("✅ Excel file downloaded successfully.");
+      })
+      .catch((error) => {
+        console.error("❌ Error:", error.message);
+      });
+  };
+
+  // const handleUpload = () => { // AA BACKEND IA takeover
+  //   if (!file) {
+  //     setErrorMessage('Please select a file first');
+  //     console.error('Please select a file first');
+  //   } else {
+  //     const formData = new FormData();
+  //     formData.append('file', file);
+
+  //     // Add your upload logic here
+  //     fetch('https://shop.proswim-lb.com/api/products/upload', {
+  //       method: 'POST',
+  //       body: formData,
+  //     })
+  //       .then((response) => response.json())
+  //       .then((data) => {
+  //         console.log('Success:', data);
+  //         setFile(null);
+  //       })
+  //       .catch((error) => {
+  //         console.error('Error:', error.message);
+  //       });
+  //     console.log('Uploading:', file);
+  //   }
+  //   setCardvisible(""); // AA need for frontend
+  //   window.location.reload();
+  // };
 
   return (
     <div className="ProductsPage bg-white w-full h-full px-5 py-6 rounded-lg">
@@ -128,51 +191,34 @@ const Products = () => {
                   onClick={() => {
                     setCardvisible("");
                     setErrorMessage("");
-                    handleUnload();
+                    // handleUnload();
                   }} />
-                <h1>Upload File</h1>
+                <h1>Export Sales Report</h1>
 
                 {/* REMOVED DATEPICKR FROM HERE AA GO BACK TO */}
                 <div className="CodeDropForm">
-                  <form className="form-container" encType='multipart/form-data' >
+                  <form className="form-container">
                     <div className="upload-files-container">
-                      <div className="drag-file-area" onDrop={handleDrop} onDragOver={handleDragOver}>
-                        {file ? (
-                          <div className="file-info">
-                            <span className="file-name">{file.name}</span> | <span className="file-size">{(file.size / 1024).toFixed(2)} KB</span>
-                          </div>
-                        ) : (
-                          <>
-                            <h3 className="dynamic-message">Drag & drop any file here</h3>
-                            <label className="label">
-                              <span className="browse-files">
-                                <input type="file" className="default-file-input" onChange={handleFileChange} />
-                                <div className="flex ">
-                                  <span>
-                                    or
-                                  </span>
-                                  <span className="browse-files-text">browse file</span>
-                                  <span>from device</span>
-                                </div>
-                              </span>
-                            </label>
-                          </>
-                        )}
+                      <div className="drag-file-area">
+                        <h3 className="dynamic-message">Select a Date</h3>
+                        <label className="label">
+                          <span className="browse-files">
+                            <input
+                              type="date"
+                              className="default-date-input"
+                              onChange={handleDateChange}
+                            />
+                          </span>
+                        </label>
                       </div>
                       {errorMessage && <div className="error-message text-red-600">{errorMessage}</div>}
-                      {file && (
-                        <div className="file-block">
-                          <span className="material-icons remove-file-icon" onClick={() => setFile(null)}>delete</span>
-                          <div className="progress-bar"></div>
-                        </div>
-                      )}
                       <div className="CTAContainer">
                         <button
                           type="submit"
                           className="CTA upload-button"
-                        onClick={() => { handleUpload() }} // AA GO BACK TO active after IA BACKEND
+                          onClick={(e) => { handleGetSales(e) }}
                         >
-                          Upload
+                          Export
                         </button>
                       </div>
                     </div>
@@ -191,11 +237,20 @@ const Products = () => {
         <div className="flex items-center gap-3 justify-center">
           <button className="uploudBtn"
             onClick={() => {
+              // setCardvisible("Upload Data");
+              // setErrorMessage("");
+              // handleUnload();
+              handleUpload();
+            }}
+          >Sync Products</button>
+          <button className="uploudBtn"
+            onClick={() => {
               setCardvisible("Upload Data");
               setErrorMessage("");
               handleUnload();
+              // handleUpload();
             }}
-          >Upload</button>
+          >Sales Report</button>
           <AddCircle
             handleClick={() => {
               navigate("/products/add");

@@ -43,6 +43,7 @@ const UserDetails = () => {
   const user = users.find((user) => user.id.toString() === id);
   const email = user ? user.email : "Email not found";
   let phone = user ? user.phone : "Phone number not found";
+  const name = user ? user.name : "Name not found";
   if (
     phone !== "Phone number not found" &&
     !phone.startsWith("+") &&
@@ -53,7 +54,7 @@ const UserDetails = () => {
   return (
     <div className="w-full h-full flex justify-center items-center">
       <div className="bg-white p-7 rounded-lg h-full flex flex-col w-full">
-        <div className="text-xl text-primary font-semibold">User's Details</div>
+        <div className="text-xl text-primary font-semibold">{name}'s Details</div>
         <div className="sm:m-6 mt-6 flex sm:flex-row flex-col items-center gap-5 relative w-full">
           <img src={pfp} alt="" height={120} width={120} />
           <div className="flex items-center text-center gap-3">

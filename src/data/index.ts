@@ -84,13 +84,13 @@ export const userOrderHeaders = [
       row.products
         .map(
           (product) =>
-            `${product.product_information.title} : ${product.product_color} x ${product.product_quantity}`
+            `${product.product_information.barcode} : ${product.product_color} x ${product.product_quantity}`
         )
         .join(", "),
   },
   { label: "Address", data: (row: OrderModel) => row.address },
   { label: "Total Price", data: (row: OrderModel) => row.total_price },
-  { label: "Type", data: (row: OrderModel) => row.type },
+  // { label: "Type", data: (row: OrderModel) => row.type },
   { label: "Date", data: (row: OrderModel) => format(new Date(row.created_at), "MM/dd/yyyy") },
 ]
 export const homeOrderHeaders = (users: UserModel[]) => [
@@ -102,7 +102,7 @@ export const homeOrderHeaders = (users: UserModel[]) => [
         : row.products
             .map(
               (product) =>
-                `${product.product_information.title} : ${product.product_color} x ${product.product_quantity}`
+                `${product.product_information.barcode} : ${product.product_color} x ${product.product_quantity}`
             )
             .join(", "),
   },
@@ -121,7 +121,7 @@ export const orderHeaders = (users: UserModel[]) => [
       row.products
         .map(
           (product) =>
-            `${product.product_information.title} : ${product.product_color} x ${product.product_quantity}`
+            `${product.product_information.barcode} : ${product.product_color} x ${product.product_quantity}`
         )
         .join(", "),
   },

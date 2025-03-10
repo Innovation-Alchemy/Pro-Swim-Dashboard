@@ -9,21 +9,21 @@ import { UserModel } from "../models/user";
 const Orders = () => {
   const [orders, setOrders] = useState<OrderModel[]>([]);
   const [users, setUsers] = useState<UserModel[]>([]);
-
   const fetchOrders = async () => {
     try {
       const response = await axios.get(
         process.env.REACT_APP_BASE_URL + "shop/orders"
       );
 
-
+      console.log(response.data);
       const orderData = response.data["data"].map((data: unknown) =>
         fromJsonToOrder(data)
       );
 
 
       setOrders(orderData);
-    } catch {
+    } catch (error){
+      console.log(error);
       return;
     }
   };
@@ -47,6 +47,7 @@ const Orders = () => {
       return;
     }
   };
+  
 
   useEffect(() => {
     fetchOrders();

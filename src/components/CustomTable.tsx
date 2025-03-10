@@ -63,7 +63,7 @@ const CustomTable = <T,>({
         <table className="w-full rounded-md my-4 border-separate border-spacing-0">
           <thead className="bg-[#edf6ff]">
             <tr>
-              {action && (
+              {/* {action && (
                 <td className="w-[80px] text-center ">
                   <input
                     type="checkbox"
@@ -71,7 +71,7 @@ const CustomTable = <T,>({
                     onChange={handleHeaderCheckboxChange}
                   />
                 </td>
-              )}
+              )} */}
               {headers.map((header, index) => (
                 <td
                   key={index}
@@ -90,7 +90,7 @@ const CustomTable = <T,>({
           <tbody>
             {data.slice(0, limtedBy ?? 99999).map((row: any, rowIndex) => (
               <tr key={rowIndex}>
-                {action && (
+                {/* {action && (
                   <td className="border-b border-gray-400 text-center">
                     <input
                       type="checkbox"
@@ -98,7 +98,7 @@ const CustomTable = <T,>({
                       onChange={() => handleRowCheckboxChange(rowIndex)}
                     />
                   </td>
-                )}
+                )} */}
                 {headers.map((header, colIndex) => (
                   <td
                     key={colIndex}

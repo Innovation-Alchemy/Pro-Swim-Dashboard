@@ -12,6 +12,7 @@ export type ProductInformationModel = {
   stock: number; // Available stock quantity
   created_at: string; // Creation date
   updated_at: string; // Last update date
+  barcode: string;
   brand_id: number;
   sport_id: number;
   product_info: { title: string; description: string }[]; // Array of product information
@@ -73,16 +74,17 @@ export const fromJsonToOrder = (json: any): OrderModel => {
           description: product.product_information.description,
           brand: product.product_information.brand,
           sport: product.product_information.sport,
+          barcode: product.product_information.barcode,
           images: {
-            generic: product.product_information.images.generic,
-            colored: product.product_information.images.colored.map(
+            generic: product.product_information?.images?.generic,
+            colored: product.product_information?.images?.colored.map(
               (image: any) => ({
                 color: image.color,
                 images: image.images,
               })
             ),
           },
-          sizes: product.product_information.sizes.flat(),
+          sizes: product.product_information?.sizes.flat(),
           stock: product.product_information.stock,
           created_at: product.product_information.created_at,
           updated_at: product.product_information.updated_at,
