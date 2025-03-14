@@ -153,6 +153,11 @@ const Products = () => {
       });
   };
 
+  const [filteredProducts, setFilteredProducts] = useState<ProductModel[]>(products);
+
+  useEffect(() => {
+    setFilteredProducts(products);
+  }, [products]);
   // const handleUpload = () => { // AA BACKEND IA takeover
   //   if (!file) {
   //     setErrorMessage('Please select a file first');
@@ -232,6 +237,21 @@ const Products = () => {
           </div>
         </> : <></>
       }
+      <div className="searchContainer flex items-center justify-between w-full mb-4">
+                <input
+                  type="text"
+                  className="searchInput w-full p-2 border border-gray-300 rounded"
+                  placeholder="Search for products..."
+                  onChange={(e) => {
+                    const searchTerm = e.target.value.toLowerCase();
+                    setFilteredProducts(
+                      products.filter((item) =>
+                        item.title.toLowerCase().includes(searchTerm)
+                      )
+                    );
+                  }}
+                />
+              </div>
       <div className="text-2xl font-semibold text-primary mb-5 flex justify-between items-center">
         Products
         <div className="flex items-center gap-3 justify-center">
@@ -265,7 +285,7 @@ const Products = () => {
       ) : (
         products && (
           <div className="flex flex-wrap gap-3">
-            {products.map((prod) => (
+            {filteredProducts.map((prod) => (
               <ProductCard
                 key={prod.id}
                 id={prod.id.toString()}
