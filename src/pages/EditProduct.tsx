@@ -287,249 +287,62 @@ const EditProduct: React.FC = () => {
   const editProduct = async () => {
     try {
       const form = new FormData();
-      if (title != "") {
-        setErrorList((prev) => prev.filter((error) => error.key !== "title"));
-        form.append("title", title);
-      } else {
-        setErrorList((prev) => {
-          const existingErrorIndex = prev.findIndex(
-            (error) => error.key === "title"
-          );
-          if (existingErrorIndex !== -1) {
-            const updatedErrors = [...prev];
-            updatedErrors[existingErrorIndex] = {
-              key: "title",
-              error: "This Field is Required",
-            };
-            return updatedErrors;
-          } else {
-            return [...prev, { key: "title", error: "This Field is Required" }];
-          }
-        });
-      }
-      if (description != "") {
-        form.append("description", description);
-      } else {
-        setErrorList((prev) => {
-          const existingErrorIndex = prev.findIndex(
-            (error) => error.key === "description"
-          );
-          if (existingErrorIndex !== -1) {
-            const updatedErrors = [...prev];
-            updatedErrors[existingErrorIndex] = {
-              key: "description",
-              error: "This Field is Required",
-            };
-            return updatedErrors;
-          } else {
-            return [
-              ...prev,
-              { key: "description", error: "This Field is Required" },
-            ];
-          }
-        });
-      }
-      if (selectedBrand > -1) {
-        form.append("brand", selectedBrand.toString());
-      } else {
-        setErrorList((prev) => {
-          const existingErrorIndex = prev.findIndex(
-            (error) => error.key === "brand"
-          );
-          if (existingErrorIndex !== -1) {
-            const updatedErrors = [...prev];
-            updatedErrors[existingErrorIndex] = {
-              key: "brand",
-              error: "This Field is Required",
-            };
-            return updatedErrors;
-          } else {
-            return [...prev, { key: "brand", error: "This Field is Required" }];
-          }
-        });
-      }
-      if (selectedSport > -1) {
-        form.append("sport", selectedSport.toString());
-      } else {
-        setErrorList((prev) => {
-          const existingErrorIndex = prev.findIndex(
-            (error) => error.key === "sport"
-          );
-          if (existingErrorIndex !== -1) {
-            const updatedErrors = [...prev];
-            updatedErrors[existingErrorIndex] = {
-              key: "sport",
-              error: "This Field is Required",
-            };
-            return updatedErrors;
-          } else {
-            return [...prev, { key: "sport", error: "This Field is Required" }];
-          }
-        });
-      }
-      if (selectedCategories.length > 0) {
-        selectedCategories.forEach((category, index) => {
-          form.append(`categories[${index}]`, category.toString());
-        });
-      } else {
-        setErrorList((prev) => {
-          const existingErrorIndex = prev.findIndex(
-            (error) => error.key === "categories"
-          );
-          if (existingErrorIndex !== -1) {
-            const updatedErrors = [...prev];
-            updatedErrors[existingErrorIndex] = {
-              key: "categories",
-              error: "This Field is Required",
-            };
-            return updatedErrors;
-          } else {
-            return [
-              ...prev,
-              { key: "categories", error: "This Field is Required" },
-            ];
-          }
-        });
-      }
-
-      if (selectedGenders.length > 0) {
-        selectedGenders.forEach((gender, index) => {
-          form.append(`genders[${index}]`, gender.toString());
-        });
-      } else {
-        setErrorList((prev) => {
-          const existingErrorIndex = prev.findIndex(
-            (error) => error.key === "genders"
-          );
-          if (existingErrorIndex !== -1) {
-            const updatedErrors = [...prev];
-            updatedErrors[existingErrorIndex] = {
-              key: "genders",
-              error: "This Field is Required",
-            };
-            return updatedErrors;
-          } else {
-            return [
-              ...prev,
-              { key: "genders", error: "This Field is Required" },
-            ];
-          }
-        });
-      }
+  
+      if (title) form.append("title", title);
+      if (description) form.append("description", description);
+      if (selectedBrand > -1) form.append("brand", selectedBrand.toString());
+      if (selectedSport > -1) form.append("sport", selectedSport.toString());
+  
+      selectedCategories.forEach((category, index) => {
+        form.append(`categories[${index}]`, category.toString());
+      });
+  
+      selectedGenders.forEach((gender, index) => {
+        form.append(`genders[${index}]`, gender.toString());
+      });
+  
       if (priceUSD > 0) {
         form.append(
           "price",
           `[{"currency": "usd", "value": ${priceUSD}}]`
         );
-      } else {
-        setErrorList((prev) => {
-          const existingErrorIndex = prev.findIndex(
-            (error) => error.key === "price"
-          );
-          if (existingErrorIndex !== -1) {
-            const updatedErrors = [...prev];
-            updatedErrors[existingErrorIndex] = {
-              key: "price",
-              error: "This Field is Required",
-            };
-            return updatedErrors;
-          } else {
-            return [...prev, { key: "price", error: "This Field is Required" }];
-          }
-        });
       }
+      
       if (stock > 0) {
         form.append("stock", stock.toString());
-      } else {
-        setErrorList((prev) => {
-          const existingErrorIndex = prev.findIndex(
-            (error) => error.key === "stock"
-          );
-          if (existingErrorIndex !== -1) {
-            const updatedErrors = [...prev];
-            updatedErrors[existingErrorIndex] = {
-              key: "stock",
-              error: "This Field is Required",
-            };
-            return updatedErrors;
-          } else {
-            return [...prev, { key: "stock", error: "This Field is Required" }];
-          }
-        });
       }
-
-      if (productInfo.length > 0) {
-        productInfo.forEach((info, index) => {
-          form.append(
-            `product_info[${index}]`,
-            `{"title":"${info.title}", "description":"${info.description
-              .replace(/\n/g, "\\n")
-              .replace(/\r/g, "\\r")}" }`
-          );
-        });
-      } else {
-        setErrorList((prev) => {
-          const existingErrorIndex = prev.findIndex(
-            (error) => error.key === "product_info"
-          );
-          if (existingErrorIndex !== -1) {
-            const updatedErrors = [...prev];
-            updatedErrors[existingErrorIndex] = {
-              key: "product_info",
-              error: "This Field is Required",
-            };
-            return updatedErrors;
-          } else {
-            return [
-              ...prev,
-              { key: "product_info", error: "This Field is Required" },
-            ];
-          }
-        });
-      }
-
-      if (models.length > 0) {
-        models.forEach((model, index) => {
-          if (model.color != "") {
-            form.append(`images[${index}][color]`, model.color);
-          }
-          if (model.image) {
-            form.append(`images[${index}][image]`, model.image);
-          }
-        });
-      } else {
-        setErrorList((prev) => {
-          const existingErrorIndex = prev.findIndex(
-            (error) => error.key === "model"
-          );
-          if (existingErrorIndex !== -1) {
-            const updatedErrors = [...prev];
-            updatedErrors[existingErrorIndex] = {
-              key: "model",
-              error: "This Field is Required",
-            };
-            return updatedErrors;
-          } else {
-            return [...prev, { key: "model", error: "This Field is Required" }];
-          }
-        });
-      }
-
+  
+      productInfo.forEach((info, index) => {
+        form.append(
+          `product_info[${index}]`,
+          `{"title":"${info.title}", "description":"${info.description.replace(/\n/g, "\\n").replace(/\r/g, "\\r")}"}`
+        );
+      });
+  
+      models.forEach((model, index) => {
+        if (model.color) form.append(`images[${index}][color]`, model.color);
+        if (model.image) form.append(`images[${index}][image]`, model.image);
+      });
+  
       for (const pair of form.entries()) {
         console.log(pair[0] + ": " + pair[1]);
       }
-
-      if (errorList.length == 0) {
-        const response = await axios.put(
-          process.env.REACT_APP_BASE_URL + "shop/products/" + id,
-          form
-        );
-        if (response.data["success"] == true) {
-          navigate(-1);
+  
+      const response = await axios.put(
+        process.env.REACT_APP_BASE_URL + "shop/products/" + id,
+        form,
+        {
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          }
         }
-      else{
+      );
+  
+      if (response.data["success"] === true) {
         navigate(-1);
-        window.location.reload();}
+      } else {
+        navigate(-1);
+        window.location.reload();
       }
     } catch (error) {
       console.log(error);
