@@ -223,18 +223,20 @@ const EditProduct: React.FC = () => {
       };
 
       const coloredImages = await Promise.all(
-        product.images.colored.map(async (colored) => {
-          const file = await urlToFile(
-            process.env.REACT_APP_BASE_URL + "uploads/" + colored.images[0]
-          );
-          lastIndex += 1;
-          return {
-            id: lastIndex,
-            title: "Colored: " + lastIndex,
-            color: colored.color,
-            image: file, // Now the image is a File object, just like uploaded ones
-          };
-        })
+        product.images.colored.flatMap((colored) =>
+          colored.images.map(async (image) => {
+            const file = await urlToFile(
+              process.env.REACT_APP_BASE_URL + "uploads/" + image
+            );
+            lastIndex += 1;
+            return {
+              id: lastIndex,
+              title: "Colored: " + lastIndex,
+              color: colored.color,
+              image: file,
+            };
+          })
+        )
       );
 
       const genericImages = await Promise.all(
@@ -327,7 +329,9 @@ const EditProduct: React.FC = () => {
       for (const pair of form.entries()) {
         console.log(pair[0] + ": " + pair[1]);
       }
-  
+      models.forEach((model, index) => {
+        console.log(`Model ${index} image:`, model.image);
+      });
       const response = await axios.put(
         process.env.REACT_APP_BASE_URL + "shop/products/" + id,
         form,
