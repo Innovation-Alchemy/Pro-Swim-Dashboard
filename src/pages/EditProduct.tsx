@@ -289,43 +289,45 @@ const EditProduct: React.FC = () => {
   const editProduct = async () => {
     try {
       const form = new FormData();
-  
+
       if (title) form.append("title", title);
       if (description) form.append("description", description);
       if (selectedBrand > -1) form.append("brand", selectedBrand.toString());
       if (selectedSport > -1) form.append("sport", selectedSport.toString());
-  
+      if (product?.active !== undefined) {
+        form.append("active", product.active.toString());
+      }
       selectedCategories.forEach((category, index) => {
         form.append(`categories[${index}]`, category.toString());
       });
-  
+
       selectedGenders.forEach((gender, index) => {
         form.append(`genders[${index}]`, gender.toString());
       });
-  
+
       if (priceUSD > 0) {
         form.append(
           "price",
           `[{"currency": "usd", "value": ${priceUSD}}]`
         );
       }
-      
+
       if (stock > 0) {
         form.append("stock", stock.toString());
       }
-  
+
       productInfo.forEach((info, index) => {
         form.append(
           `product_info[${index}]`,
           `{"title":"${info.title}", "description":"${info.description.replace(/\n/g, "\\n").replace(/\r/g, "\\r")}"}`
         );
       });
-  
+
       models.forEach((model, index) => {
         if (model.color) form.append(`images[${index}][color]`, model.color);
         if (model.image) form.append(`images[${index}][image]`, model.image);
       });
-  
+
       for (const pair of form.entries()) {
         console.log(pair[0] + ": " + pair[1]);
       }
@@ -341,7 +343,7 @@ const EditProduct: React.FC = () => {
           }
         }
       );
-  
+
       if (response.data["success"] === true) {
         navigate(-1);
       } else {
@@ -462,6 +464,17 @@ const EditProduct: React.FC = () => {
           type="decimal"
           input={priceUSD.toString()}
           handleChange={(s: string) => setPriceUSD(parseFloat(s))}
+        />
+        <AdminSelect
+          label="Active"
+          options={[
+            { id: 1, title: "Active" },
+            { id: 0, title: "Not Active" },
+          ]}
+          selected={product?.active ?? 1}
+          handleSelection={(id: number) =>
+            setProduct((prev) => prev ? { ...prev, active: id } : prev)
+          }
         />
         <div className="w-[30%]">
           <AdminInput

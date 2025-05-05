@@ -98,7 +98,7 @@ const Products = () => {
   }
 
   const handleUpload = () => {
-    fetch('https://shop.proswim-lb.com/api/shop/SyncProductsPOS', {
+    fetch( process.env.REACT_APP_BASE_URL + 'shop/SyncProductsPOS', {
       method: 'POST',
     })
       .then((response) => response.json())
@@ -108,12 +108,12 @@ const Products = () => {
       .catch((error) => {
         console.error('Error:', error.message);
       });
-    window.location.reload();
+    // window.location.reload();
   };
 
   const handleGetSales = (e) => {
     e.preventDefault();
-    fetch("https://shop.proswim-lb.com/api/shop/ordersByDate", {
+    fetch( process.env.REACT_APP_BASE_URL + "shop/ordersByDate", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -154,10 +154,17 @@ const Products = () => {
   };
 
   const [filteredProducts, setFilteredProducts] = useState<ProductModel[]>(products);
+  const [filters, setFilters] = useState({ outOfStock: false, active: false, notActive: false });
 
   useEffect(() => {
-    setFilteredProducts(products);
-  }, [products]);
+    const filtered = products.filter((item) => {
+      const matchesOutOfStock = !filters.outOfStock || parseInt(item.stock) === 0;
+      const matchesActive = !filters.active || item.active === 1;
+      const matchesNotActive = !filters.notActive || item.active === 0;
+      return matchesOutOfStock && matchesActive && matchesNotActive;
+    });
+    setFilteredProducts(filtered);
+  }, [filters, products]);
   // const handleUpload = () => { // AA BACKEND IA takeover
   //   if (!file) {
   //     setErrorMessage('Please select a file first');
@@ -184,6 +191,10 @@ const Products = () => {
   //   setCardvisible(""); // AA need for frontend
   //   window.location.reload();
   // };
+
+  const handleFilterToggle = (filterKey: 'outOfStock' | 'active' | 'notActive') => {
+    setFilters((prev) => ({ ...prev, [filterKey]: !prev[filterKey] }));
+  };
 
   return (
     <div className="ProductsPage bg-white w-full h-full px-5 py-6 rounded-lg">
@@ -238,20 +249,43 @@ const Products = () => {
         </> : <></>
       }
       <div className="searchContainer flex items-center justify-between w-full mb-4">
-                <input
-                  type="text"
-                  className="searchInput w-full p-2 border border-gray-300 rounded"
-                  placeholder="Search for products..."
-                  onChange={(e) => {
-                    const searchTerm = e.target.value.toLowerCase();
-                    setFilteredProducts(
-                      products.filter((item) =>
-                        item.title.toLowerCase().includes(searchTerm)
-                      )
-                    );
-                  }}
-                />
-              </div>
+        <input
+          type="text"
+          className="searchInput w-full p-2 border border-gray-300 rounded"
+          placeholder="Search for products..."
+          onChange={(e) => {
+            const searchTerm = e.target.value.toLowerCase();
+            const filtered = products.filter((item) => {
+              const matchesSearch = item.title.toLowerCase().includes(searchTerm);
+              const matchesOutOfStock = !filters.outOfStock || item.stock === 0;
+              const matchesActive = !filters.active || item.active === 1;
+              const matchesNotActive = !filters.notActive || item.active === 0;
+              return matchesSearch && matchesOutOfStock && matchesActive && matchesNotActive;
+            });
+            setFilteredProducts(filtered);
+          }}
+        />
+      </div>
+      <div className="filterContainer flex gap-2 mb-4">
+        <button
+          className={`filter-button ${filters.outOfStock ? 'active bg-[#1e5c97] text-white rounded-lg' : ''}`}
+          onClick={() => handleFilterToggle('outOfStock')}
+        >
+          Out of Stock
+        </button>
+        <button
+          className={`filter-button ${filters.active ? 'active bg-[#1e5c97] text-white rounded-lg' : ''}`}
+          onClick={() => handleFilterToggle('active')}
+        >
+          Active
+        </button>
+        <button
+          className={`filter-button ${filters.notActive ? 'active bg-[#1e5c97] text-white rounded-lg' : ''}`}
+          onClick={() => handleFilterToggle('notActive')}
+        >
+          Not Active
+        </button>
+      </div>
       <div className="text-2xl font-semibold text-primary mb-5 flex justify-between items-center">
         Products
         <div className="flex items-center gap-3 justify-center">

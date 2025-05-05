@@ -15,6 +15,7 @@ export type ProductModel = {
     colored: { color: string; images: string[] }[]; // Array of colored images with color and images
   };
   price: { currency: string; value: string }[];
+  active: number;
   created_at: string; // Creation date
   updated_at: string; // Last update date
 };
@@ -74,6 +75,7 @@ export const fromJsonToProduct = (json: any): ProductModel => {
           value: priceItem.value || "0",
         }))
       : [],
+    active: json.active || 0,
     created_at: json.created_at || "Unknown Date",
     updated_at: json.updated_at || "Unknown Date",
   };
